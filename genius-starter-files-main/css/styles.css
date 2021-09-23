@@ -93,8 +93,23 @@ body {
 	display: flex;
 	flex-wrap: wrap;
 	margin-top: 5rem;
+	position: relative;
 }
 
+.game__title{
+	font-size: 4rem;
+	text-transform: uppercase;
+	margin: 0;
+	padding-left: 1.2rem;
+	padding-top: 4.7rem;
+}
+
+.reg {
+	font-family: verdana, sans-serif;
+	font-size: 1.8rem;
+	margin-left: -1rem;
+	vertical-align: top;
+}
 /**********************************/
 /* 3.1 Pads
 /**********************************/
@@ -148,9 +163,125 @@ body {
 /* 3.2 Center
 /**********************************/
 
+.game__options{
+
+	/*Defininfo as posições e cores do controle central*/
+	position: absolute;
+	background-color: var(--clr-center);
+
+	/*Definindo que o círculo central irá ficar com metade 
+	do tamanho do círculo principal*/
+	width: calc(var(--game-size) / 2);
+	height: calc(var(--game-size) / 2);
+
+	/*Aqui  eu defini que o cículo central seja dividido
+	por 4 do tamanho do círculo principal */
+	top: calc(var(--game-size) / 4);
+	left: calc(var(--game-size) / 4);
+
+	border: var(--game-border);
+	border-radius: 25rem;
+
+
+
+}
+
 /**********************************/
 /* 3.2.1 GUI
 /**********************************/
+
+.gui{
+	padding-left: 1.5rem;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+}
+
+.group{
+	/* Pra separar os elementos que antes disso estavam
+	com as palavras coladas umas nas outras*/
+	margin-right: 2.2rem;
+}
+
+.group-Large{
+	display: flex;
+	width: 10rem;
+	margin-left: 4.5rem;
+}
+
+.gui__label{
+
+	font-family: "Arima Madurai", cursive;
+	font-weight: bold;
+	font-size: 0.75rem;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.gui__label--switch{
+	margin:0;
+	padding-top: 0.75rem;
+}
+
+.gui__btn{
+	width: 2.5rem;
+	height: 2.5rem;
+	margin-left: .2rem;
+	border-radius: 5rem;
+	box-shadow: 0 .2rem .3rem #222;
+	border: .4rem solid #444;
+	cursor:pointer;
+}
+
+/*Com a regra active e transforma eu dou a impressão
+de clique no botão do jogo*/
+.gui__btn:active{
+	transform: translate(0, .3rem);
+	/*Quando defino que a sombra é none ao clique
+	ele retira ela dando a impressão de clique
+	no botão ao precionar*/
+	box-shadow: none;
+}
+
+.gui__btn--start{
+	background-color: red;
+}
+
+.gui__btn--strict{
+	background-color: yellow;
+}
+
+.gui__btn-switch{
+	background-color: #222;
+	margin-left: .5rem;
+	margin-right: .5rem;
+	width: 5rem;
+	height: 2.3rem;
+	border-radius: .3rem;
+	cursor: pointer;
+}
+
+/*Criando um botão interno dentro do switch
+foi criando o pseudo elemento na classe chamado
+::before*/
+
+.gui__btn-switch::before{
+	content: "";
+	background-color: var(--clr-switch);
+	display: block;
+	position: relative;
+	left: 2.5rem;
+	width: 2.2rem;
+	height: 1.9rem;
+	border-radius: .3rem;
+	border: .2rem solid #3333;
+}
+
+28:59
+
+
+
+
 
 /**********************************/
 /* 4. Footer
