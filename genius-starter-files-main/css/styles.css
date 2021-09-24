@@ -117,6 +117,7 @@ body {
 .game__pad{
 	width: calc(var(--game-size) / 2);
 	height: calc(var(--game-size) / 2);
+	border: var(--game-border);
 }
 
 .game__pad--tl{
@@ -270,6 +271,10 @@ foi criando o pseudo elemento na classe chamado
 	background-color: var(--clr-switch);
 	display: block;
 	position: relative;
+	/*Se for inserido o valor 0 no left, a posição do
+	elemento vai para o lado do ON, como foi inserido
+	o valor 2.5rem ele fica do lado do OFF que será
+	o status principal do jogo antes do início*/
 	left: 2.5rem;
 	width: 2.2rem;
 	height: 1.9rem;
@@ -277,8 +282,48 @@ foi criando o pseudo elemento na classe chamado
 	border: .2rem solid #3333;
 }
 
-28:59
+/*Regra criada como modificador pro switch
+quando o usuário clicar será adicionado no JS a mudança
+de posição do botão*/
+.gui__btn-switch--on::before{
+	left: 0;
+}
 
+.gui__counter{
+	background-color: var(--clr-counter-off);
+	font-family: "Iceland", cursive;
+	font-weight: bold;
+	font-size: 3rem;
+	text-align: right;
+	width: 5.5rem;
+	border: .3rem solid #000;
+	border-radius: 1rem;
+	padding-right: .2rem;
+	padding-left: .3rem;
+
+}
+
+/*Regra criada apenas para mudar a cor do painel
+quando estier em ON*/
+.gui__counter--on{
+	color: var(--clr-counter-on);
+}
+
+.gui__led{
+	background-color: #32050C;
+	margin-left: 1rem;
+	margin-bottom: .5rem;
+	width: .8rem;
+	height: .8rem;
+	border: .2rem solid #222;
+	border-radius: 2rem;
+}
+
+/*Criado modificador para dar a aparência de ligado
+quando o ON estiver ativo*/
+.gui__led--active{
+	background-color: red;
+}
 
 
 
