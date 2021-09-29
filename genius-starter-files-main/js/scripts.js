@@ -1,3 +1,5 @@
+/*Variáveis criadas pro jovo*/ 
+
 const _data = {
 	gameOn: false,
 	timeout: undefined,
@@ -10,6 +12,7 @@ const _data = {
 	playerSequence: []
 };
 
+/*Elementos criados*/ 
 const _gui = {
 	counter: document.querySelector(".gui__counter"),
 	switch: document.querySelector(".gui__btn-switch"),
@@ -32,10 +35,47 @@ _soundUrls.forEach(sndPath => {
 });
 
 _gui.switch.addEventListener("click", () => {
+	
+	/*Movendo o botão ON/OFF*/ 
+	/*O método (gui__btn-switch--on) retona true quando
+	a classe é adicionada e false quando é removida
+	então a informação foi guardada dentro da propriedade
+	gameON*/ 
+	_data.gameOn = _gui.switch.classList.toggle("gui__btn-switch--on")
+	
+	/*Mesmo exemplo do métofo ON/OFF serve para o 
+	painel */
+	_gui.counter.classList.toggle("gui__counter--on")
+	/*Esse trecho de código serve para fazer com que
+	toda vez que o jogador desligar e ligar o jogo
+	o contador garanta que apareça os dois traços*/
+	_gui.counter.innerHTML = "--"
 
+	/*Variáveis inseridas antes do jogo começar*/
+	_data.strict = false;
+	_data.playerCanPlay = false;
+	_data.score = 0;
+	_data.gameSequence = [];
+	_data.playerSequence = [];
+
+	/*Aqui eu faço que quando o usuário desligar
+	o jogo todos os pads desabilitam*/
+	disablePads()
+
+	/*Aqui ele vai desativar o led do strict quando
+	o usuário desligar o jogo */
+	_gui.led.classList.remove("gui__led--active")
 });
 
 _gui.strict.addEventListener("click", () => {
+	/*O IF vai fazer com que o led seja aceso apenas
+	se o gameON estiver ativo*/
+	if(! _data.gameOn)
+		return;
+	
+	/*Ativando o led do botão strict*/
+	_data.strict = _gui.led.classList.toggle("gui__led--active")
+
 
 });
 
@@ -84,5 +124,7 @@ const changePadCursor = (cursorType) => {
 }
 
 const disablePads = () => {
-
+	_gui.pads.forEach(pad => {
+		pad.classList.remove("game__pad--active")
+	})
 }
