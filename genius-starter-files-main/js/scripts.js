@@ -93,7 +93,8 @@ _gui.pads.forEach(pad => {
 
 const startGame = () => {
 	blink("--", () => {
-		newColor()
+		newColor() //Primeira cor
+		playSequence() //Depois que toca a primeira cor aqui começa uma sequência
 	})
 
 }
@@ -119,6 +120,40 @@ const newColor = () => {
 }
 
 const playSequence = () => {
+	//Sequência de cores
+	let counter = 0
+		padOn = true //Informar se o PAD está ligado ou desligado
+		_data.playerSequence = []
+		_data.playerCanPlay = false
+
+		const interval = setInterval(() => {
+			if(!_data.gameOn){
+				clearInterval(interval)
+				disablePads()
+				return
+			}
+
+			if(padOn){
+				if(counter === _data.gameSequence.length){
+					clearInterval(interval)
+					disablePads()
+					//Chamo:
+					waitForPlayerClick()
+					_data.playerCanPlay = true
+					return
+				}
+				const sndId = _data.gameSequence[counter]
+				const pad = _gui.pads[sndId]
+
+				_data.sounds[sndId].play()
+				pad.classList.add("game__pad--active")
+				counter++
+			}
+			else{
+				disablePads()
+			}
+			padOn = !padOn
+		}, 750)
 
 }
 
@@ -154,6 +189,18 @@ const blink = (text, callback) => {
 }
 
 const waitForPlayerClick = () => {
+	
+	clearTimeout(_data.timeout)
+	
+	//Chama uma função depois de um tempo
+	_data.timeout = setTimeout(() => {
+		if(!_data.playerCanPlay)
+		return
+
+		disablePads()
+		playSequence()
+
+	}, 5000)//Cinco segundos )
 
 }
 
