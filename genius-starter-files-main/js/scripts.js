@@ -61,6 +61,7 @@ _gui.switch.addEventListener("click", () => {
 	/*Aqui eu faço que quando o usuário desligar
 	o jogo todos os pads desabilitam*/
 	disablePads()
+	changePadCursor("auto")
 
 	/*Aqui ele vai desativar o led do strict quando
 	o usuário desligar o jogo */
@@ -85,6 +86,40 @@ _gui.start.addEventListener("click", () => {
 
 const padListener = (e) => {
 
+	if(!_data.playerCanPlay)
+		return
+
+	let soundId
+	_gui.pads.forEach((pad, key) => {
+		if(pad === e.target)
+		soundId = key
+	})
+
+	e.target.classList.add("game__pad--active")
+	_data.sounds[soundId].play()
+	_data.playerSequence.push(soundId)
+
+	setTimeout(() => {
+		e.target.classList.remove("game__pad--active")
+
+		const currentMove = _data.playerSequence.length - 1
+	
+		if(_data.playerSequence[currentMove] !== _data.gameSequence[currentMove]){
+			_data.playerCanPlay = false
+			disablePads()
+			resetOrPlayAgain()
+		}
+		else if(currentMove === _data.gameSequence.length - 1){
+			newColor()
+			playSequence()
+		}
+	
+		waitForPlayerClick()
+
+	}, 250)
+
+
+
 }
 
 _gui.pads.forEach(pad => {
@@ -108,6 +143,12 @@ const setScore = () => {
 }
 
 const newColor = () => {
+	//Aqui foi definido um GAME OVER determinando
+	//uma pontuação máxima pra finalizar o jogo
+	if(_data.score === 20){
+		blink("**", startGame)
+		return
+	}
 	/*Aqui vai gerar um valor aleatório para as cores
 	porém, o valor será quebrado e com isso
 	utilizamos o Math.floor para arredondar o valor para
@@ -125,6 +166,8 @@ const playSequence = () => {
 		padOn = true //Informar se o PAD está ligado ou desligado
 		_data.playerSequence = []
 		_data.playerCanPlay = false
+		
+		changePadCursor("auto")
 
 		const interval = setInterval(() => {
 			if(!_data.gameOn){
@@ -139,6 +182,7 @@ const playSequence = () => {
 					disablePads()
 					//Chamo:
 					waitForPlayerClick()
+					changePadCursor("pointer")
 					_data.playerCanPlay = true
 					return
 				}
@@ -198,7 +242,7 @@ const waitForPlayerClick = () => {
 		return
 
 		disablePads()
-		playSequence()
+		resetOrPlayAgain()
 
 	}, 5000)//Cinco segundos )
 
@@ -206,9 +250,32 @@ const waitForPlayerClick = () => {
 
 const resetOrPlayAgain = () => {
 
+	_data.playerCanPlay = false
+
+	if(_data.strict){
+		blink("!!", () => {
+			_data.score = 0
+			_data.gameSequence = []
+			startGame
+		})
+	}
+	else{
+		blink("!!", () => {
+			setScore()
+			playSequence()
+		})
+	}
+
 }
 
+
+//Modificando o tipo do cursor quando estiver
+//com o mouse sobre os pads
 const changePadCursor = (cursorType) => {
+
+	_gui.pads.forEach(pad => {
+		pad.style.cursor = cursorType
+	})
 
 }
 

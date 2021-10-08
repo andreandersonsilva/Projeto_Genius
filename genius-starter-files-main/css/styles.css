@@ -337,3 +337,12 @@ footer{
 	margin-top: 5rem;
 	font-size: 1rem;
 }
+
+/*Aqui eu informei que quando a largura da página
+for menor que 600px eu quero que o tamanho da fonte
+seja de 45%*/
+@media (max-width: 600px){
+	html {
+		font-size: 45%;
+	}
+}
